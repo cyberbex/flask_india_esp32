@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Integrando HTML ao Flask</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['gauge'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+
+
+        function drawChart() {
+
+            var myVariable = '{{ temperatura }}'
+            var myVariable2 = '{{ amonia }}'
+            var temp = parseFloat(myVariable)
+            var amonia = parseFloat(myVariable2)
+
+            var data = google.visualization.arrayToDataTable([
+                ['Label', 'Value'],
+                ['Temperatura', temp],
+                ['Amonia', amonia],
+
+            ]);
+
+            var options = {
+                width: 400, height: 120,
+                redFrom: 90, redTo: 100,
+                yellowFrom: 75, yellowTo: 90,
+                minorTicks: 5
+            };
+
+            var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+
+            setInterval(function () {
+                data.setValue(0, 1, temp);
+                chart.draw(data, options);
+            }, 1000);
+            setInterval(function () {
+                data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+                chart.draw(data, options);
+            }, 1000);
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="chart_div" style="width: 400px; height: 120px;"></div>
+    <h2>Integrando HTML ao Flask</h2>
+    <hr>
+</body>
+
+</html>
