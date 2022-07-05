@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Integrando HTML ao Flask</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script type="text/javascript">
         google.charts.load('current', { 'packages': ['gauge'] });
@@ -15,15 +16,16 @@
 
         function drawChart() {
 
-            var myVariable = '{{ temperatura }}'
-            var myVariable2 = '{{ amonia }}'
-            var temp = parseFloat(myVariable)
-            var amonia = parseFloat(myVariable2)
+            //var myVariable = '{{ temperatura }}'
+            //var myVariable2 = '{{ amonia }}'
+            //var temp = parseFloat(myVariable)
+
+
 
             var data = google.visualization.arrayToDataTable([
                 ['Label', 'Value'],
-                ['Temperatura', temp],
-                ['Amonia', amonia],
+                ['Temperatura', 45],
+                ['Amonia', 12],
 
             ]);
 
@@ -36,16 +38,20 @@
 
             var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
 
+
             chart.draw(data, options);
 
             setInterval(function () {
-                data.setValue(0, 1, temp);
+
+                axios('http://127.0.0.1:5000/valores')
+                    .then(resposta => data.setValue(0, 1, resposta.data.temperatura))
                 chart.draw(data, options);
-            }, 1000);
+            }, 5000);
             setInterval(function () {
-                data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+                axios('http://127.0.0.1:5000/valores')
+                    .then(resposta => data.setValue(1, 1, resposta.data.amonia))
                 chart.draw(data, options);
-            }, 1000);
+            }, 5000);
 
         }
     </script>
