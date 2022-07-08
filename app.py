@@ -6,6 +6,7 @@ CORS(app)
 
 sensores = {
     "temperatura": 18,
+    "humidade": 30,
     "amonia": 20
 }
 
@@ -20,15 +21,15 @@ def inicial():
 
 @app.route('/valores', methods=["GET"])
 def outra():
-    sensores['temperatura'] = sensores['temperatura'] + 1
     return jsonify(sensores)
 
 
 @app.route('/sensores', methods=["POST"])
 def principal():
 
-    temp = request.get_json()
-    sensores['temperatura'] = temp['temperatura']
-    sensores['amonia'] = temp['amonia']
+    sesores_av722 = request.get_json()
+    sensores['temperatura'] = sesores_av722['temperatura']
+    sensores['amonia'] = sesores_av722['amonia']
+    sensores['humidade'] = sesores_av722['humidade']
 
     return jsonify(sensores)

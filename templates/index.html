@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Integrando HTML ao Flask</title>
+    <title>Sensores aviario 722</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -26,6 +26,7 @@
                 ['Label', 'Value'],
                 ['Temperatura', 45],
                 ['Amonia', 12],
+                ['Humidade', 30]
 
             ]);
 
@@ -43,13 +44,18 @@
 
             setInterval(function () {
 
-                axios('http://127.0.0.1:5000/valores')
+                axios('http://15.228.187.254:5000/valores')
                     .then(resposta => data.setValue(0, 1, resposta.data.temperatura))
                 chart.draw(data, options);
             }, 5000);
             setInterval(function () {
-                axios('http://127.0.0.1:5000/valores')
-                    .then(resposta => data.setValue(1, 1, resposta.data.amonia))
+                axios('http://15.228.187.254:5000/valores')
+                    .then(resposta => data.setValue(1, 1, resposta.data.humidade))
+                chart.draw(data, options);
+            }, 5000);
+            setInterval(function () {
+                axios('http://15.228.187.254:5000/valores')
+                    .then(resposta => data.setValue(2, 1, resposta.data.amonia))
                 chart.draw(data, options);
             }, 5000);
 
@@ -59,7 +65,7 @@
 
 <body>
     <div id="chart_div" style="width: 400px; height: 120px;"></div>
-    <h2>Integrando HTML ao Flask</h2>
+    <h2>Sensores aviário 722</h2>
     <hr>
 </body>
 
